@@ -7,14 +7,21 @@ import {
     StyleSheet,
     TouchableOpacity
 } from 'react-native';
-import { 
+import {
     Actions
 } from 'react-native-router-flux';
+import { getJSONData } from '../actions';
+import { connect } from 'react-redux';
+
 
 // Two inputs for FlatList
 // Total Data (As a Data ko Array)    2. How to render each Data Row (As a function)
 
 
+const Icons = {
+    greenIcon: "https://www.freeiconspng.com/uploads/green-glossy-ball-png-23.png",
+    redIcon : "https://sensiblesoccer.de/community/img/event/234/timthumb.png"
+}
 
 
 const response = [{
@@ -49,93 +56,138 @@ const response = [{
 }];
 
 
+class HomePage extends Component {
 
+    componentWillMount() {
+        this.props.getJSONData();
+    }
 
-
-export default class HomePage extends Component {
 
     render() {
+        console.log(this.props);
+        const { location, time } = this.props.homePageData.fetched_data;
+        if(this.props.homePageData.data_loaded){
         return (
-            <FlatList
-                style={{marginTop: 33}}
-                data={response} 
-                keyExtractor={(item) => {
-                    return item.first_name;
-                }}
-                renderItem={                   
-                    ({ item }) => 
-                        <TouchableOpacity onPress={() => {
-                            Actions.push("next");
-                        } }>
-                        <View style={styles.container}>
-                            <View style={styles.title}>
-                                <Image source={{ uri: item.avatar }} style={{ width: 100, height: 100, borderRadius:20 }} />
-                            </View>
-                            <View style={styles.body}>
-                                <View style={{ flex: 1 }}>
-                                    <Text style={{fontSize:16, color:'#000'}}>{item.first_name}</Text>
-                                </View>
-
-                            
-                                <View style={{ flex: 1, margin:10 }}>
-                                    <Text style={{fontSize:16,  color:'#000'}}> {item.desc} </Text>
-                                </View>
-
-                            
-                                <View style={{ flex: 1 }}>
-
-                            
-                                    <View style={{ flex: 1 }}>
-                                        <Text style={{fontSize:16,  color:'#000', fontWeight:'bold'}}>
-                                            {item.status.last_online}
-                                        </Text>
-                                    </View>
-                                    <View style={{ flex: 1 }}>
-
-                                    </View>
-                                </View>
+            // <FlatList
+            //     style={{marginTop: 33}}
+            //     data={response} 
+            //     keyExtractor={(item) => {
+            //         return item.first_name;
+            //     }}
+            //     renderItem={                   
+            //         ({ item }) => 
+            //             <TouchableOpacity onPress={() => {
+            //                 Actions.push("next");
+            //             } }>
+            //             <View style={styles.container}>
+            //                 <View style={styles.title}>
+            //                     <Image source={{ uri: item.avatar }} style={{ width: 100, height: 100, borderRadius:20 }} />
+            //                 </View>
+            //                 <View style={styles.body}>
+            //                     <View style={{ flex: 1 }}>
+            //                         <Text style={{fontSize:16, color:'#000'}}>{item.first_name}</Text>
+            //                     </View>
 
 
-                            </View>
-                        </View>
-                        </TouchableOpacity>
-                    
+            //                     <View style={{ flex: 1, margin:10 }}>
+            //                         <Text style={{fontSize:16,  color:'#000'}}> {item.desc} </Text>
+            //                     </View>
 
-            } />
+
+            //                     <View style={{ flex: 1 }}>
+
+
+            //                         <View style={{ flex: 1 }}>
+            //                             <Text style={{fontSize:16,  color:'#000', fontWeight:'bold'}}>
+            //                                 {item.status.last_online}
+            //                             </Text>
+            //                         </View>
+            //                         <View style={{ flex: 1 }}>
+            //                                <Image  source={{uri: item.status.online? Icons.greenIcon : Icons.redIcon }} style={styles.image} />
+            //                         </View>
+            //                     </View>
+
+
+            //                 </View>
+            //             </View>
+            //             </TouchableOpacity>
+
+
+            // } />
+            <View style={{flex:1, flexDirection: 'column', justifyContent:'center'}}>
+                <View style={{flex:1,alignSelf:'center'}}>
+                    <Text style={{flex:1, color:'#000'}}> Location: </Text>
+                    <Text style={{flex:1, color:'#000'}}>
+                        {location}
+                    </Text>
+                </View>
+                <View style={{flex:1,alignSelf:'center'}}>
+                    <Text style={{flex:1, color:'#000'}}> Time: </Text>
+                    <Text style={{flex:1, color:'#000'}}>
+                        {time}
+                    </Text>
+                </View>
+            </View>
+
 
         );
+    }
+    else{
+        return (
+            <View>
+                <Text>Loading</Text>
+                </View>
+        );
+    }
     }
 }
 const styles = StyleSheet.create({
     container: {
-        flex:1,
-        flexDirection:'row',
-        padding:10,
-        zIndex:10,
-        borderWidth:1,
-        backgroundColor:'#FFF',
-        paddingTop:10
-        
+        flex: 1,
+        flexDirection: 'row',
+        padding: 10,
+        zIndex: 10,
+        borderWidth: 1,
+        backgroundColor: '#FFF',
+        paddingTop: 10
+
     },
     leftContainer: {
-        flex:1,
-        margin:10
+        flex: 1,
+        margin: 10
 
     },
     rightContainer: {
-        flex:1,
-        flexDirection:'column',
-        justifyContent:"center",
-        margin:10
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: "center",
+        margin: 10
     },
-    title:{
-        margin:10
+    title: {
+        margin: 10
     },
     body: {
 
     },
     bottom: {
 
+    },
+    image: {
+        height: 100,
+        width: 100
     }
 
 });
+
+const mapStateToProp = (state) => {
+
+    return {
+        homePageData: state
+
+    }
+
+}
+
+//           <-----             Redux FrameWork<------------Component
+export default connect(mapStateToProp, { getJSONData })(HomePage);
+                //   mapStateToProps     mapDispatchToProp
