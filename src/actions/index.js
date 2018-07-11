@@ -1,12 +1,7 @@
-
+import response from '../response';
 const remoteURL = "https://reqres.in/api/users?page=";
 
 export const getJSONData = (pageNumber) => {
-    const response =
-    {
-        location: 'Baneswor',
-        time: '12:00'
-    }
 
     return (
     {

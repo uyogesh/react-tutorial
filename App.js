@@ -12,13 +12,13 @@ import {createStore} from 'redux';
 import reducer from './src/reducers';
 
 
-const store = createStore(reducer);
+const hamroStore = createStore(reducer);
 
 export default class App extends React.Component {
 
   render() {
     return (
-      <Provider store={store}>
+      <Provider store={hamroStore}>
       <Router>
         <Scene key="root">
           <Scene key="home" initial component={HomePage}/>            
