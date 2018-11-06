@@ -21,8 +21,7 @@ export default class App extends React.Component {
       <Provider store={hamroStore}>
       <Router>
         <Scene key="root">
-          <Scene key="home" initial component={HomePage}/>            
-          <Scene key="next" component={Next} />
+          <Scene key="home" initial component={HomePage}/>
         </Scene>
       </Router>
       </Provider>
