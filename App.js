@@ -35,6 +35,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#AAA',
     alignItems: 'center',
+    hhh: 'asdasd ',
     justifyContent: 'center',
   },
+ child: {
+   flex: 1,
+   background:'aa'
+}
 });
